@@ -1,0 +1,25 @@
+<div class="container mx-auto mt-8 px-4">
+  <h2 class="text-2xl font-bold mb-4">Todo List</h2>
+  <div class="flex mb-4">
+    <input #todoInput type="text" class="flex-grow p-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Add new todo">
+    <button (click)="addTodo(todoInput.value); todoInput.value = ''" class="bg-green-500 text-white px-4 py-2 rounded-r-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+      Add Todo
+    </button>
+  </div>
+  <ul class="space-y-2 bg-green-100 p-4 rounded-md">
+    <ng-container *ngIf="(todos$ | async) as todos">
+      <li *ngIf="todos.length === 0" class="flex items-center justify-center bg-white p-4 rounded-md shadow text-gray-500">
+        Add your first item
+      </li>
+      <li *ngFor="let todo of todos" class="flex items-center justify-between bg-white p-4 rounded-md shadow">
+        <div class="flex items-center">
+          <input type="checkbox" [checked]="todo.completed" (change)="updateTodo(todo.id, {completed: !todo.completed})" class="mr-2 form-checkbox h-5 w-5 text-green-600 rounded-full focus:ring-green-500 focus:ring-offset-0">
+          <span [ngClass]="{'line-through text-black': todo.completed}">{{ todo.title }}</span>
+        </div>
+        <button (click)="deleteTodo(todo.id)" class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">
+          Delete
+        </button>
+      </li>
+    </ng-container>
+  </ul>
+</div>
